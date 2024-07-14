@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:latest
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: ${PLANNER_DATABASE_NAME}
+      POSTGRES_USER: ${PLANNER_DATABASE_USER}
+      POSTGRES_PASSWORD: ${PLANNER_DATABASE_PASSWORD}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+volumes:
+  db_data:
+    driver: local
