@@ -16,6 +16,7 @@ import (
 	"github.com/phenpessoa/gutils/netutils/httputils"
 	"github.com/waliqueiroz/planner-api/internal/api"
 	"github.com/waliqueiroz/planner-api/internal/api/spec"
+	"github.com/waliqueiroz/planner-api/internal/mailer/mailpit"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
@@ -62,7 +63,7 @@ func run(ctx context.Context) error {
 		return err
 	}
 
-	si := api.NewAPI(pool, logger)
+	si := api.NewAPI(pool, logger, mailpit.NewMailPit(pool))
 	r := chi.NewMux()
 	r.Use(middleware.RequestID, middleware.Recoverer, httputils.ChiLogger(logger))
 	r.Mount("/", spec.Handler(si))
